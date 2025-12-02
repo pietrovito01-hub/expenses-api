@@ -1,4 +1,6 @@
-// /api/expenses.js
+export const config = {
+  runtime: "nodejs"
+};
 
 import crypto from "crypto";
 
@@ -6,7 +8,6 @@ let expenses = [];
 
 export default async function handler(req, res) {
   try {
-    // GET → return all expenses
     if (req.method === "GET") {
       return res.status(200).json({
         success: true,
@@ -14,11 +15,9 @@ export default async function handler(req, res) {
       });
     }
 
-    // POST → add new expense
     if (req.method === "POST") {
       const { description, amount } = req.body || {};
 
-      // Validate required fields
       if (!description || amount === undefined) {
         return res.status(400).json({
           success: false,
@@ -26,7 +25,6 @@ export default async function handler(req, res) {
         });
       }
 
-      // Validate amount is numeric
       const parsedAmount = Number(amount);
       if (Number.isNaN(parsedAmount)) {
         return res.status(400).json({
@@ -50,7 +48,6 @@ export default async function handler(req, res) {
       });
     }
 
-    // Unsupported HTTP method
     return res.status(405).json({
       success: false,
       error: "Method Not Allowed"
